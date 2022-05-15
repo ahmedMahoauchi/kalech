@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+    {% form_theme formRecla 'bootstrap_4_layout.html.twig' %}
+
+    {% block body %}
+      {% for message in app.flashes('info') %}
+        <div class= "alert alert-success">
+          {{message}}
+          </div>
+          {% endfor %}
+        <h1>ajout d'un client </h1>
+        {{form_start(formRecla)}}
+       
+       {{ form_row (formRecla.nom, {'attr': {'placeholder': "Nom du client"}})}}
+       {{ form_row (formRecla.theme, {'attr': {'placeholder': "Theme de Reclammation"}})}}
+       {{ form_row (formRecla.date, {'attr': {'placeholder': "Date de Reclammation"}})}}
+       {{ form_row (formRecla.description, {'attr': {'placeholder': "description de la reclammation"}})}}
+      
+<br>
+      
+       <button type="submit" class="btn btn-success">Soumettre Reclammation</button>
+     {{ form_end(formRecla) }}
+   {% endblock %}

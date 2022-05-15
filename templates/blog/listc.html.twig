@@ -1,0 +1,243 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BlogClientController!{% endblock %}
+
+{% block body %}
+
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="nav-scroller py-1 mb-2">
+    <nav class="nav d-flex justify-content-between">
+      <a class="p-2 link-secondary" href="#">World</a>
+      <a class="p-2 link-secondary" href="#">U.S.</a>
+      <a class="p-2 link-secondary" href="#">Technology</a>
+      <a class="p-2 link-secondary" href="#">Design</a>
+      <a class="p-2 link-secondary" href="#">Culture</a>
+      <a class="p-2 link-secondary" href="#">Business</a>
+      <a class="p-2 link-secondary" href="#">Politics</a>
+      <a class="p-2 link-secondary" href="#">Opinion</a>
+      <a class="p-2 link-secondary" href="#">Science</a>
+      <a class="p-2 link-secondary" href="#">Health</a>
+      <a class="p-2 link-secondary" href="#">Style</a>
+      <a class="p-2 link-secondary" href="#">Travel</a>
+    </nav>
+  </div>
+</div>
+
+
+<main class="container ">
+
+<div class="post-container">
+            <div class="row">
+
+
+                    <section class="featured section-padding">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <div class="heading">
+                                        <h1 class="section-title">Latest Posts</h1>
+                                        <h4 class="sub-title">You can also post your own thoughts</h4>
+                                    </div>
+                                </div>
+                                
+<a class="btn btn-primary"  href="{{ path('addcBlog') }}" >Add Blog</a>
+<h2>Search A Post</h2>
+
+            <div class="sidebar-search">
+
+                <div class="input-group custom-search-form">
+
+                    <input type="text" id="search" class="form-control" placeholder="Search here">
+                </div>
+                <!-- /input-group -->
+            </div>
+            <ul class="nav" id="side-menu">
+                <li>
+                    <ul class="nav nav-second-level" id="entitiesNav">
+                    </ul>
+                </li>
+            </ul><br>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+            <script type="text/javascript">
+                jQuery(document).ready(function() {
+                    var searchRequest = null;
+                    $("#search").keyup(function() {
+                        var minlength = 1;
+                        var that = this;
+                        var value = $(this).val();
+                        var entitySelector = $("#entitiesNav").html('');
+                        if (value.length >= minlength ) {
+                            if (searchRequest != null)
+                                searchRequest.abort();
+                            searchRequest = $.ajax({
+                                type: "GET",
+                                url: "{{ path('ajax_search') }}",
+                                data: {
+                                    'q' : value
+                                },
+                                dataType: "text",
+                                success: function(msg){
+                                    //we need to check if the value is the same
+                                    if (value===$(that).val()) {
+                                        var result = JSON.parse(msg);
+                                        $.each(result, function(key, arr) {
+                                            $.each(arr, function(id, value) {
+                                                if (key === 'blogs') {
+                                                    if (id !== 'error') {
+                                                        console.log(value[1]);
+                                                        entitySelector.append('<li><b>'+value[1]+'</b><a href="/showdetailedAction/'+id+'">'+'<img src="/Uploads/image/'+value[0]+'" style="width: 50px; height: 50px"/>'+'</a></li>');
+                                                    } else {
+                                                        entitySelector.append('<li class="errorLi">'+value+'</li>');
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    });
+                });
+            </script>
+<form action="" method="get" class="form_sort" id="myForm">
+                        <span class="manage_title">Sort by:</span>
+<select onChange="window.location=this.value;">
+{{ knp_pagination_sortable(blogs, 'Title A-Z', 'a.titre', {}, {'direction': 'asc'}) }}
+{{ knp_pagination_sortable(blogs, 'Title Z-A', 'a.titre', {}, {'direction': 'desc'}) }}
+{{ knp_pagination_sortable(blogs, 'Earliest', 'a.date', {}, {'direction': 'asc'}) }}
+{{ knp_pagination_sortable(blogs, 'Latest' , 'a.date', {}, {'direction': 'desc'}) }}
+{{ knp_pagination_sortable(blogs, 'Highest', 'a.votes', {}, {'direction': 'asc'}) }}
+{{ knp_pagination_sortable(blogs, 'Lowest' , 'a.votes', {}, {'direction': 'desc'}) }}
+</select>
+</form>
+
+
+                                {% for blog in blogs %}
+
+                            <div class=" col-md-4 border rounded overflow-hidden ">
+
+ 
+
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                                    <div class="featured-box ">
+                                            <a href="{{ path('showdetailedAction',{'id': blog.id}) }}">  <strong class="d-inline-block mb-2 text-primary">{{ blog.titre }}</strong></a> 
+                                        <div class="content-wrapper">
+                                            <div class="feature-content">
+                                             <div class="listing-category">
+                                                        <a ><i class="lni-alarm-clock"></i>{{ blog.date|date() }} </a>
+                                                    </div>
+                                            
+                                                                                         
+                                                    <div class="user-name">
+                                                        <a><i class="lni-user">By: </i>{{ blog.idUser.id }}</a>
+                                                    </div>
+                                                   
+                                                
+                                                {#<h4><a href="{{ path('detailed_post',{'id': posts.id}) }}">{{ posts.title }}</a></h4>#}
+                                                <p >{{ blog.description|trim }}</p>
+                                                <p >{{ blog.votes }}</p>
+                                                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+</script>
+        <style>  
+.fa {
+  font-size: 25px;
+  cursor: pointer;
+  user-select: none;
+
+}
+
+.fa:hover {
+  color: darkblue;
+}
+
+</style>
+
+<span class="fa fa-thumbs-up" style="color: black;" id="like"></span>
+<script>
+let clickElement = document.getElementById("like");
+
+clickElement.addEventListener("click", changeColor);
+
+function changeColor() {
+
+  if (clickElement.style.color == "black") {
+    clickElement.style.color = "green";
+    
+  } else {
+    clickElement.style.color = "black";
+  }
+}
+
+</script>
+                                                         <div class="btn-group"><a href="{{ path('showdetailedAction',{'id': blog.id}) }}" class="stretched-link">Continue reading...</a>   </div>
+                                            </div>
+                             
+                                            <div class="listing-bottom clearfix">
+                                            </div>
+
+        <div class="col-auto d-none d-lg-block">
+          <a href="{{ path('showdetailedAction',{'id': blog.id}) }}"><img src="{{ asset('Uploads/image/' ~blog.photo) }}" width="100%" height="auto" alt=''</a>
+        </div>
+        
+
+                                                       <div class="btn-group">
+
+                                                    <a href="{{ path('updatecBlog',{'id': blog.id}) }}"><button type="button" class="btn btn-sm btn-outline-info">Update</button></a>
+                                                    <a href="{{ path('deletecBlog',{'id': blog.id}) }}"><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+                                                    
+
+                                                </div>
+
+                                    </div>
+                          </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+
+                    </section>
+
+
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+    
+<div class="navigation text=center">
+    {{ knp_pagination_render(blogs) }}
+</div>
+  <div class="row g-3">
+
+
+    <div class="col-md-4">
+      <div class="position-sticky" style="top: 2rem;">
+        <div class="p-4 mb-3 bg-light rounded">
+          <h4 class="fst-italic">About</h4>
+          <p class="mb-0">Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.</p>
+        </div>
+
+        <div class="p-4">
+          <h4 class="fst-italic">Elsewhere</h4>
+          <ol class="list-unstyled">
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Facebook</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+{% endblock %}

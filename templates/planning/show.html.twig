@@ -1,0 +1,38 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Planning{% endblock %}
+
+{% block body %}
+    <h1>Planning</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idplanning</th>
+                <td>{{ planning.idplanning }}</td>
+            </tr>
+            <tr>
+                <th>Nomplanning</th>
+                <td>{{ planning.nomplanning }}</td>
+            </tr>
+            <tr>
+                <th>Descriptionplanning</th>
+                <td>{{ planning.descriptionplanning }}</td>
+            </tr>
+            <tr>
+                <th>Dateplanning</th>
+                <td>{{ planning.dateplanning ? planning.dateplanning|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Lieuplanning</th>
+                <td>{{ planning.lieuplanning }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_planning_index') }}">back to list</a>
+
+    <a href="{{ path('app_planning_edit', {'idplanning': planning.idplanning}) }}">edit</a>
+
+    {{ include('planning/_delete_form.html.twig') }}
+{% endblock %}

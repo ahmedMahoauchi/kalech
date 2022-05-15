@@ -1,0 +1,182 @@
+{% extends 'admin-base.html.twig' %}
+{% block title %}Hello AdminDashboardController!{% endblock %}
+
+{% block body %}
+
+<main>
+
+  {% for message in app.flashes('info') %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Bravo!</strong> {{message}}.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+  
+  <div class="row">
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+              <i class="fa-solid fa-chart-pie"></i>
+                Pie Chart Example
+            </div>
+            <div class="card-body">
+                <canvas id="myChart" width="100%" height="100%"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-bar me-1"></i>
+                Bar Chart Example
+            </div>
+            <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+        </div>
+    </div>
+</div>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Categorie</h1>     
+        
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                DataTable Example
+            </div>
+            <div class="card-body">
+                <table id="example" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nom categorie</th>
+                            <th>Description</th>
+                            <th>Supprimer</th>
+                            <th>Modifier</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for categorie in categories %}
+                        <tr>
+                            <td>{{categorie.nomCategorie}}</td>
+                            <td>{{categorie.descriptionCategorie}}</td>
+                            <td><a type="button" class="btn btn-danger confirmation" href="{{ path('Supprimer_Categorie', {'id': categorie.id}) }}" ><i class="fa-solid fa-trash"></i></a></td>
+                            <td><a type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{categorie.id}}"><i class="fas fa-edit"></i></a></td>
+                        </tr>  
+                        
+                        <div class="modal fade" id="exampleModal{{categorie.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                
+                              </div>
+                              <div class="modal-footer justify-content-center">        
+                                <button type="submit" class="btn btn-success"> Enregistrer</button>
+                            
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        
+    </div>
+</main>
+<button class="rounded-circle" style=" border:none; position: fixed;right:    50;width: 100px;height: 100px;bottom:   50; background: green;" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-plus " style="color: aliceblue;"></i></button>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+
+
+        {{form_start(formCategorie)}}
+
+
+
+        {{ form_row(formCategorie.nomCategorie,{
+          'attr':{
+              'placeholder':"nom de la categorie"       
+            }
+      }) 
+  }}
+      {{ form_row(formCategorie.descriptionCategorie,{
+          'attr':{
+              'placeholder':"description de la categorie",  }
+      }) 
+  }}
+        
+
+
+
+
+        
+       
+    
+       
+          
+         
+          
+      </div>
+      <div class="modal-footer justify-content-center">        
+        <button type="submit" class="btn btn-success"> Enregistrer</button>
+    
+        {{  form_end(formCategorie )}}
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{asset('js/dropify.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    // Set new default font family and font color to mimic Bootstrap's default styling
+
+
+// Area Chart Example
+let categories = document.querySelector("#myChart")
+let categGraph = new Chart(categories,{
+    type :"pie",
+    data : {
+        
+      labels : {{ catNom|raw }},
+        datasets : [{
+            label : "repartition des categiries",
+            
+            data: {{ prodCount|raw }},
+            backgroundColor:{{catColor|raw}},
+        }]
+    }
+})
+
+// Set new default font family and font color to mimic Bootstrap's default styling
+Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#292b2c';
+
+// Bar Chart Example
+
+
+</script>
+
+<script type="text/javascript">
+  var elems = document.getElementsByClassName('confirmation');
+  var confirmIt = function (e) {
+      if (!confirm('Are you sure?')) e.preventDefault();
+  };
+  for (var i = 0, l = elems.length; i < l; i++) {
+      elems[i].addEventListener('click', confirmIt, false);
+  }
+</script>
+
+{% endblock %}

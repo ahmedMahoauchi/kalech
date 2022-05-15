@@ -1,0 +1,35 @@
+
+{% block body %}
+
+<h1>Liste des produits</h1>
+<br><br>
+
+<table id="example" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>image</th>
+            <th>nom</th>
+            <th>description</th>
+            <th>prix</th>
+            <th>Quantite</th>
+        </tr>
+    </thead>
+    <tbody>
+      {% for produit in produits %}
+      <tr>
+        <td class="d-flex justify-content-center"><img src="{{asset('Uploads/image/')}}{{produit.image}}" height="100" width="170" alt=""></td>
+        <td>{{produit.nom}}</td>
+        <td>{{produit.description}}</td>
+        <td>{{produit.prix}}</td>
+        <td>{{produit.qt}}</td>
+       
+    </tr>
+      {% endfor %}
+       
+        
+   
+    </tbody>
+</table>
+
+
+{% endblock %}

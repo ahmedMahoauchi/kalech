@@ -1,0 +1,55 @@
+{% extends 'admin-base.html.twig' %}
+{% block title %}Hello AdminDashboardController!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+<div style="display: flex;align-itens: center; justify-content: center">
+
+<div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Gestion Comments
+            </div>
+            <div class="card-body">
+                <table id="example" class="table table-striped table-bordered">
+                    <thead>
+
+
+    <tr>
+        <td>ID</td>
+        <td>Parent ID</td>
+        <td>Blog ID</td>
+        <td>User ID</td>
+        <td>Description</td>
+        <td>Votes</td>
+        <td>Date</td>
+        <td>Suppression</td>
+    </tr>
+       </thead>
+      <tbody>
+    {% for comments in commentss %}
+    
+        <tr>
+            <td>{{ comments.id }}</td>
+            <td>{{ comments.idParentComment }}</td>
+            <td>{{ comments.idBlog.id }}</td>
+            <td>{{ comments.idUser.id }}</td>
+            <td>{{ comments.description }}</td>
+            <td>{{ comments.votes }}</td>
+            <td>{{ comments.date|date('d-m-Y H:i:s') }}</td>
+<td>
+<a class="btn btn-danger" href="{{ path('deleteComments',{'id':comments.id,'d':comments.description,'m':comments.idUser.email}) }}">Delete</a>
+</td>
+     
+
+        </tr>
+    {% endfor %}
+</tbody>
+                </table>
+            </div>
+</div>
+  </div>
+</div>
+
+{% endblock %}

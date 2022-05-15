@@ -1,0 +1,132 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Programme {% endblock %}
+
+{% block body %}
+    
+
+<!DOCTYPE html>
+
+<html lang="zxx">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="Gym Template">
+    <meta name="keywords" content="Gym, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gym | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{{ asset('front-end/css/bootstrap.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('front-end/css/font-awesome.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('front-end/css/flaticon.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('front-end/css/owl.carousel.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('front-end/css/barfiller.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('front-end/css/magnific-popup.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('front-end/css/slicknav.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('front-end/css/style.css')}}" type="text/css">
+</head>
+
+<body>
+<!-- Classes Section Begin -->
+<section class="classes-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <span>Our Classes</span>
+                    <h2>WHAT WE 
+                     OFFER</h2>
+                </div>
+                   <div >
+        <input  id="myInput" type="text"  >
+
+    </div>
+            </div>
+        </div>
+        <div class="row"> 
+        <tbody>
+        {% for programme in programmes %}
+        
+            <div name="elements" class="col-lg-6 col-md-6">
+                <div class="class-item">
+                    <div class="ci-pic">
+                        <img src="{{ asset('Uploads/image/' ~programme.imageprogramme) }}">
+                    </div>
+                    <div class="ci-text">
+                        <span>{{ programme.typeprogramme }}</span>
+                        <h5>{{ programme.nomprogramme }}</h5>
+                        
+                         <a href="{{ path('app_programme_show1', {'idprogramme': programme.idprogramme}) }}">
+                        <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        
+            
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        <div class="utf_pagination_container_part margin-bottom-70">
+              <nav class="pagination">
+                <ul>
+                  <li>{{ knp_pagination_render(programmes) }}</li>
+                </ul>
+              </nav>
+            </div>
+        </tbody>
+        </div>
+        <div class>
+        <section id="hero" class="d-flex align-items-center">
+    <script >
+
+        function searchEnt() {
+            let searchString = document.getElementById('myInput').value; // recuperation de l'input de la recherche
+            const elements = document.getElementsByName('elements') //recuperation de la reference du dom (liste des tr)
+            if (searchString.length!==0){
+                $.ajax({
+                    url: '/programme/search1/'+searchString,
+                    success: function (data) {
+                        console.log("data :",data)
+                        for (let i = 0; i < elements.length; i++){
+                            elements[i].style.display = "none";
+                        }
+                        for (let j = 0; j < data.length; j++) {
+                            $('#programme'+data[j].id).show('slow');
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert("erreur lors de la recuperation des données")
+                    }
+                });
+            }else{
+                for (let i = 0; i < elements.length; i++){
+                    elements[i].style.display = "revert";
+                }
+            }
+        }
+    </script>
+    </section><!-- End Hero -->
+
+</div>
+<div class>
+        
+    </div>
+</section>
+<!-- ChoseUs Section End -->
+
+
+</body>
+
+</html>
+
+{% endblock %}

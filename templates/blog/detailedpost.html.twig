@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<a href="{{ path('listcBlog')}}"> <button>back to list</button></a>
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Post Content Column -->
+            <div class="col-lg-8">
+
+                <!-- Title -->
+                <h1 class="mt-4">{{ blogs.titre|upper }}</h1>
+
+
+                <hr>
+
+                <!-- Date/Time -->
+                <p>{{ blogs.date|date() }}</p>
+
+                <hr>
+
+                <!-- Preview Image -->
+                <img src="{{ asset('Uploads/image/' ~blogs.photo) }}" width="100%" height="auto">
+
+                <hr>
+
+                <!-- Post Content -->
+                <p class="lead">{{ blogs.description }}</p>
+
+   
+
+                <hr>
+
+                <!-- Comments Form -->
+                <div class="card my-4">
+                    <h5 class="card-header">Leave a Comment:</h5>
+                    <div class="card-body">
+                        
+                            <div class="form-group">
+<form action="{{ path('addComments',{'id': blogs.id}) }}"  method="post" id="comment">
+                               
+
+                            </div>
+                            <button type="submit" class="btn btn-primary">add</button>
+                        </form>
+                    </div>
+                </div>
+                 
+ 
+                <!-- Single Comment -->
+                {% for comments in allcomments %}
+                
+               {% if ( comments.idBlog.id == blogs.id ) %}
+                {% if ( comments.idParentComment == 0 ) %}
+                        <h5 class="mt-0">{{ comments.idUser.id }}</h5>
+<p>{{ comments.getDescription() }}</p>
+                       {#} {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% if(comment.user.id== app.user.id) %}
+{#}
+<p>{{ comments.getDate()|date() }}</p>
+  <a href="{{ path('addReplies',{'id': blogs.id,'idc': comments.id}) }}"><button type="button" class="btn btn-secondary">Reply</button></a>
+  <a href="{{ path('deletecComments',{'id': comments.id}) }}"><button type="button" class="btn btn-danger">Delete</button></a>
+
+
+     {% endif %}  
+
+ {% for reply in replies %}
+
+    
+   {% if (comments.id == reply.idParentComment) %}
+    <div class="container ">
+        <p>
+                      <h5 class="mt-0"> {{ reply.idUser.id }}</h5>
+                      <h6 style="color:#808080" class="mt-0">Replying to {{ comments.idUser.id }}</h6>
+                    </p>
+                      <p>{{ reply.getDescription() }}</p>
+    <p>{{ reply.getDate()|date() }}</p>
+  <a href="{{ path('addReplies',{'id': blogs.id,'idc': reply.id}) }}"><button type="button" class="btn btn-secondary">Reply</button></a>
+  <a href="{{ path('deletecComments',{'id': reply.id}) }}"><button type="button" class="btn btn-danger">Delete</button></a>
+   </div >
+       {% endif %}  
+  
+
+ 
+         {% endfor %}               
+       
+                                          
+               {% endif %}              
+     
+        
+{#}              
+{% else %}
+
+
+                        {% endif %}
+
+                        {% elseif is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}
+                        <br>
+
+                        {% endif %}
+{#}
+                    
+{% endfor %}
+                <!-- Comment with nested comments -->
+
+
+          
+                <br><br><br><br><br>
+
+            <!-- Sidebar Widgets Column -->
+            <div class="col-md-4">
+
+                <!-- Search Widget -->
+
+
+
+
+
+        </div>
+        <!-- /.row -->
+</div>
+    </div>
+    <!-- /.container -->
+</div>
+{% endblock %}

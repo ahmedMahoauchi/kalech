@@ -1,0 +1,51 @@
+{% block body %}
+    <style>
+        
+  .tb { border-collapse: collapse; }
+  .tb th, .tb td { padding: 5px; border: solid 1px #777; }
+  .tb th { background-color: lightblue; }
+
+    body{
+        font:normal 12px/20PX "Liberation sans", Arial, Helvetica, sans-serif;
+        color:#585858;
+    }
+    img{
+        width:100px;
+        margin:10px;
+        border: solid 5px #E8E8E8;
+
+    }
+</style>
+
+
+<div>Appollon Gym</div>
+<img src='data:image;base64,<?= {{ img64 }};?>' />
+
+<h1 align="center">Liste reclammation</h1><hr>
+
+<table id="example" align="center" class="tb">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Theme</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+    
+                    {% for recla in recla %}
+                        <tr>
+                            <td>{{recla.nom}}</td>
+                            <td>{{recla.theme}}</td>
+                            <td>{{recla.description}}</td>
+                            <td>{{ recla.date }}</td>
+                           
+                        </tr>
+                    {% endfor %}
+                   
+                   
+                    </tbody>
+                </table>
+                {% endblock %}

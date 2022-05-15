@@ -1,0 +1,56 @@
+
+{% block body %}
+
+    <style>
+        body{
+            font:normal 12px/20PX "Liberation sans", Arial, Helvetica, sans-serif;
+            color:#585858;
+        }
+        img{
+            width:100px;
+            margin:10px;
+            border: solid 5px #E8E8E8;
+
+        }
+    </style>
+
+
+
+    <img src='data:image;base64,<?= {{ img64 }};?>' />
+
+
+
+    <h1 align="center">Liste des employes</h1><hr>
+
+    <table>
+        <thead>
+        <tr>
+            <th class="wd-30p">ID</th>
+            <th class="wd-15p">Nom employé </th>
+            <th class="wd-15p">Role employé</th>
+            <th class="wd-15p">numero employé </th>
+            <th class="wd-15p">salaire employé</th>
+
+
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for employe in employe %}
+            <tr >
+                <td>{{employe.idemploye}}</td>
+                <td>{{employe.nomemploye}}</td>
+                <td>{{employe.dateemploye}}</td>
+                <td>{{employe.numemploye}}</td>
+                <td>{{employe.salaireemploye}}</td>
+
+
+
+            </tr >
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+{% endblock %}

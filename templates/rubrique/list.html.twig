@@ -1,0 +1,47 @@
+{% extends 'admin-base.html.twig' %}
+{% block title %}Hello AdminDashboardController!{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+<div style="display: flex;align-itens: center; justify-content: center">
+
+<div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Gestion Rubriques
+            </div>
+            <div class="card-body">
+            <a class="btn btn-primary"  href="{{ path('addRubrique') }}" >Add Rubrique</a>
+                <table id="example" class="table table-striped table-bordered">
+                    <thead>
+
+    <tr>
+        <td>Id</td>
+        <td>Title</td>
+        <td>Modification</td>
+        <td>Suppression</td>
+    </tr>
+     </thead>
+      <tbody>
+    {% for rubrique in rubriques %}
+        <tr>
+            <td>{{ rubrique.id }}</td>
+            <td>{{ rubrique.titre }}</td>
+<td> 
+<a class="btn btn-success" href="{{ path('updateRubrique',{'id':rubrique.id}) }}">Update</a>
+</td> 
+<td>
+<a class="btn btn-danger" href="{{ path('deleteRubrique',{'id':rubrique.id}) }}">Delete</a>
+</td>
+     
+
+     </tr>
+    {% endfor %}
+</tbody>
+                </table>
+            </div>
+</div>
+  </div>
+</div>
+
+{% endblock %}

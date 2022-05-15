@@ -1,0 +1,42 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Programme{% endblock %}
+
+{% block body %}
+    <h1>Programme</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idprogramme</th>
+                <td>{{ programme.idprogramme }}</td>
+            </tr>
+            <tr>
+                <th>Nomprogramme</th>
+                <td>{{ programme.nomprogramme }}</td>
+            </tr>
+            <tr>
+                <th>Descriptionprogramme</th>
+                <td>{{ programme.descriptionprogramme }}</td>
+            </tr>
+            <tr>
+                <th>Niveauprogramme</th>
+                <td>{{ programme.niveauprogramme }}</td>
+            </tr>
+            <tr>
+                <th>Genreprogramme</th>
+                <td>{{ programme.genreprogramme }}</td>
+            </tr>
+            <tr>
+                <th>Typeprogramme</th>
+                <td>{{ programme.typeprogramme }}</td>
+            </tr>
+            <tr>
+                <th>Imageprogramme</th>
+                <td>{{ programme.imageprogramme }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+{% endblock %}

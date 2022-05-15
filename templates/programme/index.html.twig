@@ -1,0 +1,127 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}Programme index{% endblock %}
+
+{% block body %}
+    <h1>Programme test</h1>
+    <div class="pcoded-search-box" style="position: relative;color:white; ">
+        <input onkeyup="searchEnt()" type="text" id="searchEnt" class="form-control" placeholder="Search">
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nomprogramme</th>
+                <th>Niveauprogramme</th>
+                <th>Genreprogramme</th>
+                <th>Typeprogramme</th>
+                <th>Imageprogramme</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for programme in programmes %}
+            <tr name="elements" id="{{'programme'~ programme.idprogramme }}">
+                <td>{{ programme.nomprogramme }}</td>
+                 {% if programme.niveauprogramme ==1 %}
+                    <td>debutant</td>
+                {% elseif programme.niveauprogramme ==2 %}
+                    <td>intermediaire</td>
+                {% elseif programme.niveauprogramme ==3 %}
+                    <td>avancé</td>                 
+                {% endif %}
+                               
+                {% if programme.genreprogramme ==0 %}
+                    <td>femme</td>
+                {% elseif programme.genreprogramme ==1 %}
+                   <td>homme</td>
+                {% endif %}
+                 
+                <td>{{ programme.typeprogramme }}</td>
+                <td><img src="{{ asset('Uploads/image/' ~programme.imageprogramme) }}"  height="52" width="52"></td>
+                <td>
+                    <a href="{{ path('app_programme_show', {'idprogramme': programme.idprogramme}) }}">show</a>
+                    <a href="{{ path('app_programme_edit', {'idprogramme': programme.idprogramme}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="dropbtn" >
+        <select id="mySelect" onchange="myFunction()" style="background-color: slategray;">
+        <option value='u.idprogramme' ></option>
+          <option value='id1' >id asc</option>
+          <option value='id2'>id dsc</option>
+          <option value='nom1' >nom asc</option>
+          <option value='nom2'>nom dsc</option>
+          <option value='niveau2'>niveau dsc</option>
+          <option value='niveau1'>niveau asc</option>
+        </select>
+        </div>
+        <div>
+         <a href="{{ path('sendemail') }}">send email</a>
+        </div>
+        <section id="hero" class="d-flex align-items-center">
+    <script >
+
+        function searchEnt() {
+            let searchString = document.getElementById('searchEnt').value; // recuperation de l'input de la recherche
+            const elements = document.getElementsByName('elements') //recuperation de la reference du dom (liste des tr)
+            if (searchString.length!==0){
+                $.ajax({
+                    url: '/programme/search1/'+searchString,
+                    success: function (data) {
+                        console.log("data :",data)
+                        for (let i = 0; i < elements.length; i++){
+                            elements[i].style.display = "none";
+                        }
+                        for (let j = 0; j < data.length; j++) {
+                            $('#programme'+data[j].idprogramme).show('slow');
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert("erreur lors de la recuperation des données")
+                    }
+                });
+            }else{
+                for (let i = 0; i < elements.length; i++){
+                    elements[i].style.display = "revert";
+                }
+            }
+        }
+    </script>
+    </section><!-- End Hero -->
+
+</div>
+<div class>
+<script >
+
+    function myFunction() {
+        let searchString = document.getElementById('mySelect').value; // recuperation de l'input de la recherche
+      if(searchString=='id2'){
+        window.location = ('http://127.0.0.1:8000/programme/order1/'+'u.idprogramme');
+      }
+      if(searchString=='id1'){
+        window.location = ('http://127.0.0.1:8000/programme/order2/'+'u.idprogramme');
+      }
+      if(searchString=='nom2'){
+        window.location = ('http://127.0.0.1:8000/programme/order1/'+'u.nomprogramme');
+      }
+      if(searchString=='nom1'){
+        window.location = ('http://127.0.0.1:8000/programme/order2/'+'u.nomprogramme');
+      }
+      if(searchString=='niveau2'){
+        window.location = ('http://127.0.0.1:8000/programme/order1/'+'u.niveauprogramme');
+      }
+      if(searchString=='niveau1'){
+        window.location = ('http://127.0.0.1:8000/programme/order2/'+'u.niveauprogramme');
+      }
+    }
+</script>
+</div>
+    <a href="{{ path('app_programme_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+    {% form_theme formClient 'bootstrap_4_layout.html.twig' %}
+
+    {% block body %}
+      {% for message in app.flashes('info') %}
+        <div class= "alert alert-success">
+          {{message}}
+          </div>
+          {% endfor %}
+        <h1>ajout d'un client </h1>
+        {{form_start(formClient)}}
+       
+       {{ form_row (formClient.nom, {'attr': {'placeholder': "Nom du client"}})}}
+       {{ form_row (formClient.prenom, {'attr': {'placeholder': "Prenom du client"}})}}
+       {{ form_row (formClient.date, {'attr': {'placeholder': "Date du client"}})}}
+       {{ form_row (formClient.sexe, {'attr': {'placeholder': "Sexe du client"}})}}
+       {{ form_row (formClient.num,  {'attr': {'placeholder': "Numero du client"}})}}
+       {{ form_row (formClient.email,  {'attr': {'placeholder': "Email du client"}})}}
+       {{ form_row (formClient.password,  {'attr': {'placeholder': "Password du client"}})}}
+<br>
+      
+       <button type="submit" class="btn btn-success">Ajouter client</button>
+     {{ form_end(formClient) }}
+   {% endblock %}

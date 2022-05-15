@@ -1,0 +1,151 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href=" {{ asset('css/sidebar.css')}}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		
+        {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+        {% block stylesheets %}
+            {#{{ encore_entry_link_tags('app') }}#}
+        {% endblock %}
+
+        {% block javascripts %}
+            {#{{ encore_entry_script_tags('app') }}#}
+        {% endblock %}
+    </head>
+    <body>
+
+        <style>
+            a {
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent; }
+  a:hover {
+    color: #0056b3;
+    text-decoration: underline; }
+
+a:not([href]):not([tabindex]) {
+  color: inherit;
+  text-decoration: none; }
+  a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
+    color: inherit;
+    text-decoration: none; }
+  a:not([href]):not([tabindex]):focus {
+    outline: 0; }
+        </style>
+       
+        <div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="custom-menu" style="position: fixed;">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+	        </button>
+        </div>
+	  		<div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
+	  			<div class="user-logo">
+	  				<img class="img" src="{{ asset('images/logo.png') }}">
+	  				<h3>Dashoard Apollon Gym</h3>
+	  			</div>
+	  		</div>
+        <ul class="list-unstyled components mb-5">
+          <li class="active">
+            <a href="{{path('app_produit_admin')}}"><i class="fas fa-tshirt"></i> Produit</a>
+          </li>
+          <li>
+            <a href="{{path('app_categorie_admin')}}"><i class="fa-solid fa-book"></i> Categories</a>
+          </li>
+          <li>
+            <a href="{{path('app_commande')}}"><i class="fa-solid fa-clipboard"></i> Commandes</a>
+          </li>
+
+        <li>
+          <a href="{{ path('display_Conge') }}"><i class="fa-solid fa-mug-hot"></i> Congé </a>
+        </li>
+          <li class="active">
+              <a href="{{ path('display_Employe') }}"><i class="fa-solid fa-user-gear"></i> Employes</a>
+          </li>
+
+
+          <li>
+            <a class="dropdown-item" href="{{ path('listRubrique') }}"><i class="fa-solid fa-paper-plane"></i> Rubrique</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{{ path('listBlog') }}"><i class="fa-solid fa-blog"></i> Blog</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{{ path('listComments') }}"><i class="fa-solid fa-comment"></i> Comments</a>
+          </li>
+
+          <li>
+            <a href="{{path('app_admin_client')}}"><i class="fa-solid fa-users"></i> Client</a>
+          </li>
+          <li>
+            <a href="{{path('app_admin_reclammation')}}"><i class="fa-solid fa-circle-exclamation"></i> Reclammation</a>
+          </li>
+
+          <li>
+            <a href="{{ path('app_planning_index')}}"><i class="fa-solid fa-calendar"></i> planning</a>
+          </li>
+          <li>
+            <a href="{{ path('app_programme_index')}}"><i class="fa-solid fa-dumbbell"></i> programme</a>
+          </li>
+          
+          <li>
+            <a href="{{path('app_home_page')}}"><i class="fa-solid fa-campfire"></i> Partie cilents</a>
+          </li>
+          <li>
+            <a href="{{ path('app_logout')}}"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+          </li>
+        </ul>
+
+    	</nav>
+
+        <!-- Page Content  -->
+      <div id="content" class="p-4 p-md-5 pt-5">
+
+        
+        {% block body %}{% endblock %}
+    </div>
+		
+        
+        
+        
+    
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="{{asset('js/main.js')}}"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#example').DataTable(
+                    
+                     {     
+            
+                  "aLengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]],
+                    "iDisplayLength": 5
+                   } 
+                    );
+            } );
+            
+            
+            function checkAll(bx) {
+              var cbs = document.getElementsByTagName('input');
+              for(var i=0; i < cbs.length; i++) {
+                if(cbs[i].type == 'checkbox') {
+                  cbs[i].checked = bx.checked;
+                }
+              }
+            }
+        </script>
+        
+    </body>
+</html>
